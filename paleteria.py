@@ -5,7 +5,10 @@ class Paleta:
 
     def mostrar_informacion(self):
         print(f"Sabor: {self.sabor}")
-        print(f"Precio: ${self.precio}")
+        print(f"Precio base: ${self.precio}")
+
+    def precio_final(self):
+        return self.precio
 
 
 class PaletaAgua(Paleta):
@@ -13,11 +16,10 @@ class PaletaAgua(Paleta):
         super().__init__(sabor, precio)
         self.base_agua = base_agua
 
-    def mostrar_base_agua(self):
-        if self.base_agua:
-            print("Sí es a base de agua")
-        else:
-            print("No es a base de agua")
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print("Tipo: Paleta de Agua")
+        print("Base: Agua")
 
     def precio_final(self):
         return self.precio + 2
@@ -28,11 +30,10 @@ class PaletaCrema(Paleta):
         super().__init__(sabor, precio)
         self.cremosa = cremosa
 
-    def mostrar_base_cremosa(self):
-        if self.cremosa:
-            print("Sí es cremosa")
-        else:
-            print("No es cremosa")
+    def mostrar_informacion(self):
+        super().mostrar_informacion()
+        print("Tipo: Paleta de Crema")
+        print("Base: Cremosa")
 
     def precio_final(self):
         return self.precio + 6
@@ -42,24 +43,27 @@ class PaletaCrema(Paleta):
 
 
 def main():
-    agua = PaletaAgua("Limón", 12)
-    crema = PaletaCrema("Nuez", 28)
+
+    paletas = [
+        PaletaAgua("Limón", 12),
+        PaletaCrema("Nuez", 28),
+        PaletaAgua("Fresa", 14),
+        PaletaCrema("Chocolate", 30)
+    ]
+
+    print(" Lista de Paletas ")
+
+    for paleta in paletas:
+        paleta.mostrar_informacion()
+        print(f"Precio final: ${paleta.precio_final()}\n")
 
 
-    agua.mostrar_informacion()
-    agua.mostrar_base_agua()
-    print(f"El precio final es de ${agua.precio_final()}")
-
-    crema.mostrar_informacion()
-    crema.mostrar_base_cremosa()
-    print(f"El precio final es de ${crema.precio_final()}")
-
-    nuevo_sabor = input("Ingrese el nuevo sabor de la paleta de crema: ")
-    crema.cambiar_sabor(nuevo_sabor)
-
-    print("Paleta de Crema actualizada")
-    crema.mostrar_informacion()
-    print(f"El precio final es de ${crema.precio_final()}")
+    nueva = input("Ingrese el nuevo sabor para la paleta de crema: ")
+    if isinstance(paletas[1], PaletaCrema):
+        paletas[1].cambiar_sabor(nueva)
+        print("\nPaleta actualizada:")
+        paletas[1].mostrar_informacion()
+        print(f"Precio final: ${paletas[1].precio_final()}")
 
 
 if __name__ == "__main__":
